@@ -56,8 +56,8 @@ public class Spawner : MonoBehaviour
         do
         {
             spawnPos = new Vector3
-            (Random.Range(-levelBound, levelBound),
-            0.5f, Random.Range(-levelBound, levelBound));
+            ((int)Random.Range(-levelBound, levelBound),
+            0.5f, (int)Random.Range(-levelBound, levelBound));
 
         } while (prefab.prevSpawnPos == spawnPos);
 
