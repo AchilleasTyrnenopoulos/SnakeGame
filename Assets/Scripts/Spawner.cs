@@ -22,6 +22,8 @@ public class Spawner : MonoBehaviour
 
 
     [SerializeField] private GameObject fruitPrefab;
+    [SerializeField] private GameObject bigFruitPrefab;
+    [SerializeField] private int bigFruitSpawnChance;
 
     [SerializeField] private float levelBound = 24f;
 
@@ -45,7 +47,15 @@ public class Spawner : MonoBehaviour
         {
             SpawnPrefab fruit = new SpawnPrefab(fruitPrefab, fruitTimer, fruitLifetime, prevFruitSpawnPos);
             fruitCounter = 0f;
-            Spawn(fruit);
+            if (ToSpawnBigFruit())
+            {
+                fruit.prefab = bigFruitPrefab;
+                //SpawnPrefab bigFruit = new SpawnPrefab(bigFruitPrefab, fruitTimer, fruitLifetime, prevFruitSpawnPos);
+                //Spawn(bigFruit);
+                print("bigFruit fruit");
+            }
+           
+                Spawn(fruit);
         }
     }
 
@@ -68,6 +78,18 @@ public class Spawner : MonoBehaviour
 
         //store spawn position 
         prefab.prevSpawnPos = spawnPos;
+    }
 
+    private bool ToSpawnBigFruit()
+    {
+        if(GameManager.instance.Score > 10)
+        {
+            print("can spawn");
+            int rand = Random.Range(0, 100);
+            if (rand < bigFruitSpawnChance)
+                return true;
+        }
+        
+        return false;
     }
 }

@@ -177,6 +177,9 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(other.gameObject);
             createNodeAtTail = true;
+
+            //update score
+            GameManager.instance.UpdateScore(other.GetComponent<Fruit>().value);
         }
 
         if (other.tag == Tags.Wall || other.tag == Tags.Bomb || other.tag == Tags.Tail)

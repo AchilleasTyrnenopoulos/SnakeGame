@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 263640325}
   - component: {fileID: 263640324}
   m_Layer: 0
-  m_Name: Fruit Spawner
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,6 +152,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fruitPrefab: {fileID: 2778854792194739958, guid: 33e9e5a73944b1a42984411122285f08,
     type: 3}
+  bigFruitPrefab: {fileID: 991540457991077916, guid: 86634a4bb6d16d145bf438020621b851,
+    type: 3}
+  bigFruitSpawnChance: 20
   levelBound: 24
   fruitCounter: 0
   fruitTimer: 3
@@ -547,6 +550,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 579573040}
+  - component: {fileID: 579573041}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -568,6 +572,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &579573041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 579573039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a6065b341f36144b5ab56294595300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  scoreTxt: {fileID: 1895846702}
 --- !u!1 &610435446
 GameObject:
   m_ObjectHideFlags: 0
