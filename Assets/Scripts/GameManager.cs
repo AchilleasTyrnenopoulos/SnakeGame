@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -12,10 +13,15 @@ public class GameManager : MonoBehaviour
     public float Score { get { return score; } }
     [SerializeField]
     private float score;
-    public event Action<int> ChangeScore; 
+    public event Action<int> ChangeScore;
+
+    public event Action Death;
 
     [SerializeField]
     private TextMeshProUGUI scoreTxt;
+
+    [SerializeField]
+    private GameObject deathPanel;
 
     private void Awake()
     {
@@ -26,9 +32,10 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         
         //subscribe method to event
-        ChangeScore += UpdateScore;;
+        ChangeScore += UpdateScore;
+        Death += EnableDeathPanel;
 
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
     }
 
     private void OnDestroy()
@@ -53,6 +60,17 @@ public class GameManager : MonoBehaviour
         ChangeScore.Invoke(value);
     }
 
+    public void OnDeath()
+    {
+        Death.Invoke();
+    }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
+    }
+
     private void UpdateScore(int value)
     {
         score += value;
@@ -62,5 +80,10 @@ public class GameManager : MonoBehaviour
     private void UpdateScoreUI()
     {
         scoreTxt.text = "Score: " + score;
+    }
+
+    private void EnableDeathPanel()
+    {
+        deathPanel.SetActive(true);
     }
 }

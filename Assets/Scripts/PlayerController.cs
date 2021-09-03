@@ -43,11 +43,13 @@ public class PlayerController : MonoBehaviour
             new Vector3(stepLength, 0f, 0f), //RIGHT
             new Vector3(0f, 0f, -stepLength) //DOWN
         };
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.instance.Death += PlayerDeath;
 
     }
 
@@ -185,7 +187,7 @@ public class PlayerController : MonoBehaviour
         if (other.tag == Tags.Wall || other.tag == Tags.Bomb || other.tag == Tags.Tail)
         {
             print("Lost");
-            PlayerDeath();
+            GameManager.instance.OnDeath();
         }       
     }
 
