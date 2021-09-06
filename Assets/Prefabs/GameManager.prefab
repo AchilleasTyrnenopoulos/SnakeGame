@@ -43,7 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a6065b341f36144b5ab56294595300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3056242631287967320, guid: 05551545bb29a5941ba3a562d580710a,
+    type: 3}
+  currentPlayer: {fileID: 0}
   score: 0
+  iteration: 1
   paused: 0
   scoreTxt: {fileID: 0}
   scoreTxtGO: {fileID: 0}

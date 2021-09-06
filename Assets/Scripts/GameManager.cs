@@ -10,12 +10,20 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [SerializeField]
+    private GameObject playerPrefab;
+    [SerializeField]
+    private GameObject currentPlayer;
+
     public float Score { get { return score; } }
     [SerializeField]
     private float score;
     public event Action<int> ChangeScore;
+    [SerializeField]
+    private int iteration = 1;
 
     public event Action Death;
+    public event Action onGamePlus;
 
     public bool paused = false;
 
@@ -48,13 +56,21 @@ public class GameManager : MonoBehaviour
         //subscribe method to event
         ChangeScore += UpdateScore;
         Death += EnableDeathPanel;
-
+        onGamePlus += GamePlus;
         //DontDestroyOnLoad(this.gameObject);
     }
 
     private void OnDestroy()
     {
         ChangeScore -= UpdateScore;
+        Death -= EnableDeathPanel;
+        onGamePlus -= GamePlus;
+    }
+    private void OnDisable()
+    {
+        ChangeScore -= UpdateScore;
+        Death -= EnableDeathPanel;
+        onGamePlus -= GamePlus;
     }
 
     // Start is called before the first frame update
@@ -123,6 +139,33 @@ public class GameManager : MonoBehaviour
     {
         score += value;
         UpdateScoreUI();
+
+        //check score
+        if(score/iteration > 1000)
+        {
+            OnGamePlus();
+        }
+    }
+
+    private void GamePlus()
+    {
+        Destroy(currentPlayer);
+        currentPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        
+        float playerSpeed = currentPlayer.GetComponent<PlayerController>().movementFreq;
+        if (playerSpeed <= 0.01)
+            playerSpeed -= 0.002f * iteration;
+        else
+            playerSpeed -= 0.01f * iteration;
+        currentPlayer.GetComponent<PlayerController>()
+            .movementFreq = playerSpeed;
+        
+        iteration++;
+    }
+
+    private void OnGamePlus()
+    {
+        onGamePlus.Invoke();
     }
 
     private void UpdateScoreUI()

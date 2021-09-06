@@ -50,9 +50,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GameManager.instance.Death += PlayerDeath;
-
     }
 
+    private void OnDestroy()
+    {
+        GameManager.instance.Death -= PlayerDeath;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -198,5 +201,5 @@ public class PlayerController : MonoBehaviour
 
         //show death screen, play sound etc.
     }
-    
+ 
 }
