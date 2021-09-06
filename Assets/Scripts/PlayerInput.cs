@@ -27,9 +27,16 @@ public class PlayerInput : MonoBehaviour
         horizontal = 0;
         vertical = 0;
 
-        GetKeyboardInput();
-        SetMovement();
-        
+        if (!GameManager.instance.paused)
+        {
+            GetKeyboardInput();
+            SetMovement();
+        }
+        if (GetPauseInput())
+            GameManager.instance.TogglePause();
+
+
+
     }
 
     private void GetKeyboardInput()
@@ -60,12 +67,20 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    private bool GetPauseInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space))
+            return true;
+       
+        return false;
+    }
+
     private int GetAxisRaw(Axis axis)
     {
         if (axis == Axis.Horizontal)
         {
-            bool left = Input.GetKeyDown(KeyCode.A);
-            bool right = Input.GetKeyDown(KeyCode.D);
+            bool left = Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow);
+            bool right = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow);
 
             if (left)
                 return -1;
@@ -74,8 +89,8 @@ public class PlayerInput : MonoBehaviour
         }
         else if (axis == Axis.Vertical)
         {
-            bool up = Input.GetKeyDown(KeyCode.W);
-            bool down = Input.GetKeyDown(KeyCode.S);
+            bool up = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow);
+            bool down = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
 
             if (up)
                 return 1;

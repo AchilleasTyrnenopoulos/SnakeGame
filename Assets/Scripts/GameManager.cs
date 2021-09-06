@@ -17,11 +17,25 @@ public class GameManager : MonoBehaviour
 
     public event Action Death;
 
-    [SerializeField]
-    private TextMeshProUGUI scoreTxt;
+    public bool paused = false;
 
     [SerializeField]
-    private GameObject deathPanel;
+    private TextMeshProUGUI scoreTxt;
+    [SerializeField]
+    private GameObject scoreTxtGO;
+
+    [SerializeField]
+    private GameObject pausedPanel;
+
+    [SerializeField]
+    private GameObject playAgainBtn;
+    [SerializeField]
+    private GameObject continueBtn;
+    [SerializeField]
+    private GameObject mainMenuBtn;
+
+    [SerializeField]
+    private TextMeshProUGUI deathScoreTxt;
 
     private void Awake()
     {
@@ -30,7 +44,7 @@ public class GameManager : MonoBehaviour
             instance = this;
         else
             Destroy(this.gameObject);
-        
+
         //subscribe method to event
         ChangeScore += UpdateScore;
         Death += EnableDeathPanel;
@@ -46,13 +60,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnChangeScore(int value)
@@ -65,7 +79,41 @@ public class GameManager : MonoBehaviour
         Death.Invoke();
     }
 
-    public void PlayAgain()
+    private void PauseGame()
+    {
+        paused = true;
+
+        Time.timeScale = 0f;
+        
+        pausedPanel.SetActive(true);
+        continueBtn.SetActive(true);
+        mainMenuBtn.SetActive(true);
+    }
+
+    public void TogglePause()
+    {
+        if (paused)
+            ContinueBtn();
+        else
+            PauseGame();
+    }
+
+    public void PlayAgainBtn()
+    {
+        SceneManager.LoadScene(1);
+        Time.timeScale = 1f;
+    }
+
+    public void ContinueBtn()
+    {
+        pausedPanel.SetActive(false);
+        continueBtn.SetActive(false);
+        mainMenuBtn.SetActive(false);
+        Time.timeScale = 1f;
+        paused = false;
+    }
+
+    public void MainMenu()
     {
         SceneManager.LoadScene(0);
         Time.timeScale = 1f;
@@ -79,11 +127,14 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        scoreTxt.text = "Score: " + score;
+        scoreTxt.text = "Score " + score;
     }
 
     private void EnableDeathPanel()
     {
-        deathPanel.SetActive(true);
+        pausedPanel.SetActive(true);
+        playAgainBtn.SetActive(true);
+        scoreTxtGO.SetActive(false);
+        deathScoreTxt.text = "Score " + score;
     }
 }
