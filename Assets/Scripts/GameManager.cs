@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     private TextMeshProUGUI scoreTxt;
     [SerializeField]
     private GameObject scoreTxtGO;
+    [SerializeField]
+    private GameObject deathScoreGO;
+    [SerializeField]
+    private GameObject pausedTextGO;
 
     [SerializeField]
     private GameObject pausedPanel;
@@ -176,8 +180,10 @@ public class GameManager : MonoBehaviour
     private void EnableDeathPanel()
     {
         pausedPanel.SetActive(true);
+        pausedTextGO.SetActive(false);
         playAgainBtn.SetActive(true);
         scoreTxtGO.SetActive(false);
+        deathScoreGO.SetActive(true);
         deathScoreTxt.text = "Score " + score;
     }
 }
